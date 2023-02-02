@@ -36,8 +36,8 @@ public class VentanaPagar extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        botonpagar = new javax.swing.JButton();
+        Cambio = new javax.swing.JCheckBox();
         jLabel1 = new javax.swing.JLabel();
         Carrito = new javax.swing.JComboBox<>();
         BorrarSeleccionado = new javax.swing.JButton();
@@ -66,15 +66,20 @@ public class VentanaPagar extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(51, 51, 51));
-        jButton1.setText("Pagar");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(647, 365, 85, -1));
+        botonpagar.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        botonpagar.setForeground(new java.awt.Color(51, 51, 51));
+        botonpagar.setText("Pagar");
+        botonpagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonpagarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(botonpagar, new org.netbeans.lib.awtextra.AbsoluteConstraints(647, 365, 85, -1));
 
-        jCheckBox1.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(51, 51, 51));
-        jCheckBox1.setText("Quédate el cambio!");
-        jPanel1.add(jCheckBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 403, -1, -1));
+        Cambio.setFont(new java.awt.Font("Segoe UI Semibold", 0, 18)); // NOI18N
+        Cambio.setForeground(new java.awt.Color(51, 51, 51));
+        Cambio.setText("Quédate el cambio!");
+        jPanel1.add(Cambio, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 403, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
@@ -118,7 +123,7 @@ public class VentanaPagar extends javax.swing.JFrame {
         dinero.setFont(new java.awt.Font("Sylfaen", 0, 18)); // NOI18N
         dinero.setForeground(new java.awt.Color(0, 102, 0));
         dinero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dinero.setText("dinero");
+        dinero.setText("0");
         dinero.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jPanel1.add(dinero, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 144, 164, 17));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(545, 133, 187, 5));
@@ -150,6 +155,10 @@ public class VentanaPagar extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void botonpagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonpagarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonpagarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -185,20 +194,26 @@ public class VentanaPagar extends javax.swing.JFrame {
             }
         });
     }
-
+    
+    /**
+     * 
+     * Establece la escucha para los botones especificados dentro del método, y envía su actioncommand a la clase "Control"
+     * @param control 
+     */
     void setOidor(Control control) {
         BorrarSeleccionado.addActionListener(control);
         jMenuItem1.addActionListener(control);
         jMenuItem2.addActionListener(control);
+        botonpagar.addActionListener(control);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BorrarSeleccionado;
+    private javax.swing.JCheckBox Cambio;
     private javax.swing.JComboBox<String> Carrito;
     private javax.swing.JTextArea areatexto;
+    private javax.swing.JButton botonpagar;
     private javax.swing.JLabel dinero;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -209,26 +224,87 @@ public class VentanaPagar extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
-
+    
+    /**
+     * Añade el item seleccionado al ComboBox "Carrito",
+     * establece el label "Dinero" al coste total de los productos del carrito 
+     * y muestra un mensaje de confirmación
+     * @param itemseleccionado 
+     */
     void añadiralcarrito(String itemseleccionado) {
         Carrito.addItem(itemseleccionado);
         setDinero(subtotal + "");
         JOptionPane.showMessageDialog(rootPane, "Se ha añadido " + itemseleccionado + " al carrito.");
     }
 
+    /**
+     * Devuelve el item del combobox "Carrito" que está seleccionado en ese momento
+     * @return 
+     */
     String getItemseleccionado() {
         return (String) Carrito.getSelectedItem();
     }
 
+    /**
+     * Elimina "itemseleccionado" del combobox "Carrito"
+     * @param itemseleccionado 
+     */
     void eliminardecarrito(String itemseleccionado) {
         Carrito.removeItem(itemseleccionado);
     }
 
+    /**
+     * Establece el texto de la etiqueta "Dinero"
+     * @param string 
+     */
     public void setDinero(String string) {
         dinero.setText(string);
     }
 
+    /**
+     * Establece el texto del area de texto
+     * @param texto 
+     */
     void setTextAreaTexto(String texto) {
         areatexto.setText(texto);
+    }
+
+    /**
+     * Establece el parámetro "coste" al texto que hay en la etiqueta "dinero"
+     * @param coste
+     * @return 
+     */
+    int getcoste(int coste) {
+        coste = Integer.parseInt(dinero.getText());
+        return coste;
+    }
+
+    /**
+     * Añade a el area de texto el texto especificado
+     * @param textoaimprimir 
+     */
+    void imprimirtexto(String textoaimprimir) {
+        areatexto.append(textoaimprimir);
+        areatexto.append("\n");
+    }
+
+    /**
+     * Devuelve la ventana a como estaba nada más iniciar el programa
+     * 
+     */
+    void resetear() {
+        subtotal = 0;
+        Carrito.removeAllItems();
+        dinero.setText("0");
+        Cambio.setSelected(false);
+        areatexto.setText("");
+    }
+
+    /**
+     * Devuelve true o false dependiendo si el Checkbox "Cambio" está seleccionado
+     * @return 
+     */
+    boolean quedateelcambio() {
+        return Cambio.isSelected();
     }
 }

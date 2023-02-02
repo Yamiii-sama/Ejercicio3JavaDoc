@@ -51,7 +51,7 @@ public class VentanaCompra extends javax.swing.JFrame {
         dinero = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -221,7 +221,7 @@ public class VentanaCompra extends javax.swing.JFrame {
         dinero.setFont(new java.awt.Font("Sylfaen", 0, 18)); // NOI18N
         dinero.setForeground(new java.awt.Color(0, 102, 0));
         dinero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        dinero.setText("dinero");
+        dinero.setText("5");
         dinero.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         jLabel3.setFont(new java.awt.Font("Sylfaen", 0, 18)); // NOI18N
@@ -452,10 +452,20 @@ public class VentanaCompra extends javax.swing.JFrame {
         });
     }
 
+    /**
+     * 
+     * Establece la escucha para los botones especificados dentro del método, y envía su actioncommand a la clase "Control"
+     * @param control 
+     */
     void setOidor(Control control) {
         añadiralcarrito.addActionListener(control);
     }
 
+    /**
+     * Establece el ActionCommand de todos los botones como el texto que contienen y devuelve el ActionCommand del botón seleccionado.
+     * PD: si no hacía la matriz y el setActionCommand el método no funcionaba.
+     * @return 
+     */
     public String getItemseleccionado() {
         JRadioButton[] radioButtons = {jRadioButton1, jRadioButton10, jRadioButton11, jRadioButton12, jRadioButton13, jRadioButton14, jRadioButton2, jRadioButton3, jRadioButton4, jRadioButton5, jRadioButton6, jRadioButton7, jRadioButton8, jRadioButton9};
         for (int i = 0; i < radioButtons.length; i++) {
@@ -487,4 +497,12 @@ public class VentanaCompra extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton9;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Devuelve la ventana a como estaba nada más iniciar el programa
+     */
+    void resetear() {
+    dinero.setText("5");
+    jRadioButton1.setSelected(true);
+    }
 }

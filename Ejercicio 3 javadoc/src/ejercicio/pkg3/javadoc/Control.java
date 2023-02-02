@@ -24,6 +24,9 @@ public class Control implements ActionListener {
         this.VentanaDePago = Ventana3;
     }
 
+    double dineropagado;
+    int coste;
+
     Productos Leche_Pascual = new Productos(5, "Leche Pascual");
     Productos Crema_avellanas = new Productos(3, "Crema de avellanas");
     Productos CocaLao = new Productos(4, "Coca-Lao");
@@ -66,11 +69,63 @@ public class Control implements ActionListener {
                 }
                 break;
             case "Nueva compra":
-                System.out.println("Nueva compra");
-                JOptionPane.showMessageDialog(VentanaDePago, "Se borrarán todos los datos de esta compra, ¿Desea continuar?");
+                int opcion = JOptionPane.showOptionDialog(VentanaDePago, "Se borrarán todos los datos de esta compra, ¿Desea continuar?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (opcion == JOptionPane.YES_OPTION) {
+                    VentanaDeCompra.resetear();
+                    VentanaDePago.resetear();
+                    VentanaDeMonedero.resetear();
+                    dineropagado = 0;
+                    coste = 0;
+                } else if (opcion == JOptionPane.NO_OPTION) {
+                }
                 break;
             case "Borrar area de texto":
                 VentanaDePago.setTextAreaTexto("");
+                break;
+            case "Pagar":
+                if (VentanaDeMonedero.isVisible()) {
+                    VentanaDeMonedero.hide();
+                } else {
+                    VentanaDeMonedero.show();
+                }
+                break;
+            case "Pagardesdemonedero":
+                dineropagado += VentanaDeMonedero.dardineroacaja(dineropagado);
+                VentanaDeMonedero.dispose();
+                coste = VentanaDePago.getcoste(coste);
+                VentanaDePago.imprimirtexto("Me has dado un total de " + dineropagado + "$");
+                if (dineropagado == coste) {
+                    VentanaDePago.imprimirtexto("Vaya, me has dado el dinero justo, pues eso es todo, \ngracias por tu compra!");
+                    dineropagado = 0;
+                    JOptionPane.showMessageDialog(VentanaDePago, "Saliendo de la tienda...");
+                    VentanaDeCompra.resetear();
+                    VentanaDePago.resetear();
+                    VentanaDeMonedero.resetear();
+                    dineropagado = 0;
+                    coste = 0;
+
+                } else if (dineropagado < coste) {
+                    VentanaDePago.imprimirtexto("Me has dado " + dineropagado + "$, pero aún te faltan " + (coste - dineropagado) + "$");
+                } else {
+                    if (VentanaDePago.quedateelcambio()) {
+                        VentanaDePago.imprimirtexto("Vaya, ¿puedo quedarme con el cambio? Muchisimas gracias!");
+                        JOptionPane.showMessageDialog(VentanaDePago, "Saliendo de la tienda...");
+                        VentanaDeCompra.resetear();
+                        VentanaDePago.resetear();
+                        VentanaDeMonedero.resetear();
+                        dineropagado = 0;
+                        coste = 0;
+                    } else {
+                        VentanaDePago.imprimirtexto("Me has dado de más, aquí tienes el cambio");
+                        VentanaDePago.imprimirtexto("*Te devuelve un total de " + (dineropagado - coste) + "$*");
+                        JOptionPane.showMessageDialog(VentanaDePago, "Saliendo de la tienda...");
+                        VentanaDeCompra.resetear();
+                        VentanaDePago.resetear();
+                        VentanaDeMonedero.resetear();
+                        dineropagado = 0;
+                        coste = 0;
+                    }
+                }
                 break;
             default:
                 throw new AssertionError();

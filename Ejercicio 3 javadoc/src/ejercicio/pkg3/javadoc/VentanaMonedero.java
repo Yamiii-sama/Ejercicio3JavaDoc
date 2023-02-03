@@ -409,7 +409,7 @@ public class VentanaMonedero extends javax.swing.JFrame {
      * @return 
      */
     double dardineroacaja(double dineropagado) {
-        dineropagado = Double.parseDouble(dinero.getText());
+        dineropagado = Double.parseDouble(dinero.getText().replace(",", "."));
         dineroselected = 0;
         dinero.setText("0,00");
         return dineropagado;
